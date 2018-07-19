@@ -19,13 +19,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.mesosphere.mesos.rx.java</groupId>
+    <groupId>com.hubspot.mesos.rx.java</groupId>
     <artifactId>mesos-rxjava</artifactId>
-    <version>0.2.1-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Mesos RxJava</name>
-    <url>https://github.com/mesosphere/mesos-rxjava</url>
+    <url>https://github.com/HubSpot/mesos-rxjava</url>
 
     <description>
         Rx client on top of Apache Mesos HTTP Api.
@@ -39,16 +39,6 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
-    <organization>
-        <name>Mesosphere, Inc</name>
-        <url>https://mesosphere.com/</url>
-    </organization>
-
-    <developers>
-        <developer>
-            <name>BenWhitehead</name>
-        </developer>
-    </developers>
 
     <scm>
         <connection>scm:git:https://github.com/mesosphere/mesos-rxjava.git</connection>
@@ -94,42 +84,35 @@
         <module>mesos-rxjava-protobuf-client</module>
     </modules>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <dependencyManagement>
         <dependencies>
 
             <!-- project libraries -->
             <dependency>
-                <groupId>com.mesosphere.mesos.rx.java</groupId>
+                <groupId>com.hubspot.mesos.rx.java</groupId>
                 <artifactId>mesos-rxjava-client</artifactId>
-                <version>0.2.1-SNAPSHOT</version>
+                <version>0.1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>com.mesosphere.mesos.rx.java</groupId>
+                <groupId>com.hubspot.mesos.rx.java</groupId>
                 <artifactId>mesos-rxjava-recordio</artifactId>
-                <version>0.2.1-SNAPSHOT</version>
+                <version>0.1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>com.mesosphere.mesos.rx.java</groupId>
+                <groupId>com.hubspot.mesos.rx.java</groupId>
                 <artifactId>mesos-rxjava-util</artifactId>
-                <version>0.2.1-SNAPSHOT</version>
+                <version>0.1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>com.mesosphere.mesos.rx.java</groupId>
+                <groupId>com.hubspot.mesos.rx.java</groupId>
                 <artifactId>mesos-rxjava-test</artifactId>
-                <version>0.2.1-SNAPSHOT</version>
+                <version>0.1.0-SNAPSHOT</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>com.mesosphere.mesos.rx.java</groupId>
+                <groupId>com.hubspot.mesos.rx.java</groupId>
                 <artifactId>mesos-rxjava-protobuf-client</artifactId>
-                <version>0.2.1-SNAPSHOT</version>
+                <version>0.1.0-SNAPSHOT</version>
             </dependency>
 
             <!-- Rx Libraries -->
@@ -364,29 +347,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>license-maven-plugin</artifactId>
-                        <configuration>
-                            <excludedScopes>test</excludedScopes>
-                            <excludedGroups>${project.groupId}</excludedGroups>
-                            <licenseMerges>
-                                <licenseMerge>Apache Software License Version 2.0|The Apache Software License, Version 2.0|Apache 2|Apache License, Version 2.0|Apache Software Licenses</licenseMerge>
-                                <licenseMerge>CDDL+GPL License|CDDL+GPL</licenseMerge>
-                                <licenseMerge>Eclipse Public License 1.0|Eclipse Public License - v 1.0</licenseMerge>
-                            </licenseMerges>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>download-licenses</id>
-                                <goals>
-                                    <goal>add-third-party</goal>
-                                    <goal>download-licenses</goal>
-                                </goals>
-                                <phase>generate-resources</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
                         <executions>
@@ -442,16 +402,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
