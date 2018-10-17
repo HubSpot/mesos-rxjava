@@ -53,24 +53,6 @@ Releases are available in Maven Central.
 </dependency>
 ```
 
-
-### Snapshot Release
-
-#### Snapshot Repo
-
-Version `0.1.0-SNAPSHOT` has been published to the Sonatype OSS Snapshot Repo.
-```
-<repositories>
-    <repository>
-        <id>ossrh</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
-    </repository>
-</repositories>
-```
-
 #### Protobuf Client
 
 ```
