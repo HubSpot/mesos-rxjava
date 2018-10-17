@@ -50,7 +50,6 @@
     <basepom.release.profiles>oss-release</basepom.release.profiles>
     <dep.netty.version>4.1.4.Final</dep.netty.version>
     <dep.protobuf.version>3.5.0</dep.protobuf.version>
-    <findbugs.skip>true</findbugs.skip>
     <mesos.version>1.6.1</mesos.version>
     <project.build.targetJdk>1.8</project.build.targetJdk>
     <version.rxJava>1.1.8</version.rxJava>
@@ -145,7 +144,7 @@
         </includes>
       </resource>
     </resources>
-  
+
     <pluginManagement>
       <plugins>
         <plugin>
