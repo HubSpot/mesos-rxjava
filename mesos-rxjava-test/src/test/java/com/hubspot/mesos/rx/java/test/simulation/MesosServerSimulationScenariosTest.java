@@ -16,32 +16,38 @@
 
 package com.hubspot.mesos.rx.java.test.simulation;
 
-import com.hubspot.mesos.rx.java.test.Async;
-import com.hubspot.mesos.rx.java.test.RecordIOUtils;
-import com.hubspot.mesos.rx.java.test.StringMessageCodec;
-import com.hubspot.mesos.rx.java.util.MessageCodec;
-import io.netty.buffer.ByteBuf;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.reactivex.netty.RxNetty;
-import io.reactivex.netty.protocol.http.client.*;
-import org.jetbrains.annotations.NotNull;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.Timeout;
-import rx.Observable;
-import rx.Subscription;
-import rx.observers.TestSubscriber;
-import rx.subjects.BehaviorSubject;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.hubspot.mesos.rx.java.util.CollectionUtils.deepEquals;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static com.hubspot.mesos.rx.java.util.CollectionUtils.deepEquals;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.jetbrains.annotations.NotNull;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.Timeout;
+
+import com.hubspot.mesos.rx.java.test.Async;
+import com.hubspot.mesos.rx.java.test.RecordIOUtils;
+import com.hubspot.mesos.rx.java.test.StringMessageCodec;
+import com.hubspot.mesos.rx.java.util.MessageCodec;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.reactivex.netty.RxNetty;
+import io.reactivex.netty.protocol.http.client.HttpClient;
+import io.reactivex.netty.protocol.http.client.HttpClientPipelineConfigurator;
+import io.reactivex.netty.protocol.http.client.HttpClientRequest;
+import io.reactivex.netty.protocol.http.client.HttpClientResponse;
+import io.reactivex.netty.protocol.http.client.HttpResponseHeaders;
+import rx.Observable;
+import rx.Subscription;
+import rx.observers.TestSubscriber;
+import rx.subjects.BehaviorSubject;
 
 public final class MesosServerSimulationScenariosTest {
 
@@ -51,7 +57,7 @@ public final class MesosServerSimulationScenariosTest {
     public static final String OFFER_1 = "offer-1";
     public static final String DECLINE = "decline";
     @Rule
-    public Timeout timeoutRule = new Timeout(5000, MILLISECONDS);
+    public Timeout timeoutRule = new Timeout(10000, MILLISECONDS);
 
     @Rule
     public Async async = new Async();

@@ -16,30 +16,32 @@
 
 package com.hubspot.mesos.rx.java;
 
-import com.hubspot.mesos.rx.java.test.StringMessageCodec;
-import com.hubspot.mesos.rx.java.util.UserAgentEntries;
-import io.netty.buffer.ByteBuf;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.reactivex.netty.RxNetty;
-import io.reactivex.netty.protocol.http.server.HttpServer;
-import io.reactivex.netty.protocol.http.server.RequestHandler;
-import org.jetbrains.annotations.NotNull;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.Timeout;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import org.jetbrains.annotations.NotNull;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.Timeout;
+
+import com.hubspot.mesos.rx.java.test.StringMessageCodec;
+import com.hubspot.mesos.rx.java.util.UserAgentEntries;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.reactivex.netty.RxNetty;
+import io.reactivex.netty.protocol.http.server.HttpServer;
+import io.reactivex.netty.protocol.http.server.RequestHandler;
 
 public final class MesosClientIntegrationTest {
 
     @Rule
-    public Timeout timeoutRule = new Timeout(5_000, TimeUnit.MILLISECONDS);
+    public Timeout timeoutRule = new Timeout(10000, TimeUnit.MILLISECONDS);
 
     @Test
     public void testStreamDoesNotRunWhenSubscribeFails_mesos4xxResponse() throws Throwable {

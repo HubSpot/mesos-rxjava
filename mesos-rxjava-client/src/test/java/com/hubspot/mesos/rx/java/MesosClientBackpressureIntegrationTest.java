@@ -16,30 +16,32 @@
 
 package com.hubspot.mesos.rx.java;
 
-import com.hubspot.mesos.rx.java.test.StringMessageCodec;
-import com.hubspot.mesos.rx.java.util.UserAgentEntries;
-import io.netty.buffer.ByteBuf;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.reactivex.netty.RxNetty;
-import io.reactivex.netty.protocol.http.server.HttpServer;
-import io.reactivex.netty.protocol.http.server.HttpServerResponse;
-import io.reactivex.netty.protocol.http.server.RequestHandler;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.Timeout;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import rx.exceptions.MissingBackpressureException;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.Timeout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.hubspot.mesos.rx.java.test.StringMessageCodec;
+import com.hubspot.mesos.rx.java.util.UserAgentEntries;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.reactivex.netty.RxNetty;
+import io.reactivex.netty.protocol.http.server.HttpServer;
+import io.reactivex.netty.protocol.http.server.HttpServerResponse;
+import io.reactivex.netty.protocol.http.server.RequestHandler;
+import rx.exceptions.MissingBackpressureException;
 
 public final class MesosClientBackpressureIntegrationTest {
 
@@ -48,7 +50,7 @@ public final class MesosClientBackpressureIntegrationTest {
     static int msgNo = 0;
 
     @Rule
-    public Timeout timeoutRule = new Timeout(10_000, TimeUnit.MILLISECONDS);
+    public Timeout timeoutRule = new Timeout(10000, TimeUnit.MILLISECONDS);
 
     @Test
     @Ignore

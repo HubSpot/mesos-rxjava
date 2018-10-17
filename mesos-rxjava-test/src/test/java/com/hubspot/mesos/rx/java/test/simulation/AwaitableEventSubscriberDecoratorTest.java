@@ -16,20 +16,22 @@
 
 package com.hubspot.mesos.rx.java.test.simulation;
 
-import com.hubspot.mesos.rx.java.test.Async;
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
+
+import com.hubspot.mesos.rx.java.test.Async;
+
 import rx.Subscription;
 import rx.observers.TestSubscriber;
 import rx.subjects.BehaviorSubject;
 
-import java.util.concurrent.TimeUnit;
-
 public final class AwaitableEventSubscriberDecoratorTest {
 
     @Rule
-    public Timeout timeout = new Timeout(1000, TimeUnit.MILLISECONDS);
+    public Timeout timeout = new Timeout(10000, TimeUnit.MILLISECONDS);
 
     @Rule
     public Async async = new Async();
