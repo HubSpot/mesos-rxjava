@@ -52,8 +52,8 @@
     <dep.protobuf.version>3.5.0</dep.protobuf.version>
     <mesos.version>1.6.1</mesos.version>
     <project.build.targetJdk>1.8</project.build.targetJdk>
-    <version.rxJava>1.1.8</version.rxJava>
-    <version.rxNetty>0.5.1</version.rxNetty>
+    <dep.rxJava.version>1.1.8</dep.rxJava.version>
+    <dep.rxNetty.version>0.5.1</dep.rxNetty.version>
   </properties>
 
   <dependencyManagement>
@@ -105,12 +105,12 @@
       <dependency>
         <groupId>io.reactivex</groupId>
         <artifactId>rxjava</artifactId>
-        <version>${version.rxJava}</version>
+        <version>${dep.rxJava.version}</version>
       </dependency>
       <dependency>
         <groupId>io.reactivex</groupId>
         <artifactId>rxnetty</artifactId>
-        <version>${version.rxNetty}</version>
+        <version>${dep.rxNetty.version}</version>
       </dependency>
 
       <dependency>
