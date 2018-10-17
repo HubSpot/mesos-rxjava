@@ -41,9 +41,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:https://github.com/mesosphere/mesos-rxjava.git</connection>
-        <developerConnection>scm:git:https://github.com/mesosphere/mesos-rxjava.git</developerConnection>
-        <url>https://github.com/mesosphere/mesos-rxjava</url>
+        <connection>scm:git:https://github.com/HubSpot/mesos-rxjava.git</connection>
+        <developerConnection>scm:git:https://github.com/HubSpot/mesos-rxjava.git</developerConnection>
+        <url>https://github.com/HubSpot/mesos-rxjava</url>
     </scm>
     <issueManagement>
         <system>Github</system>
