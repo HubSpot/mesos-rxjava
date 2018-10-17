@@ -44,6 +44,7 @@ import com.hubspot.mesos.rx.java.util.MessageCodec;
 import com.hubspot.mesos.rx.java.util.UserAgent;
 import com.hubspot.mesos.rx.java.util.UserAgentEntry;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -351,6 +352,7 @@ public final class MesosClient<Send, Receive> {
      * If the item in the queue contains an exception, that exception will be throw back up to the user.
      */
     // @VisibleForTesting
+    @SuppressFBWarnings
     static final class SubscriberDecorator<T> extends Subscriber<T> implements Callable<Optional<Throwable>> {
         @NotNull
         private final Subscriber<T> delegate;

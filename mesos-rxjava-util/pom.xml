@@ -14,52 +14,61 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.hubspot.mesos.rx.java</groupId>
+    <artifactId>mesos-rxjava</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>mesos-rxjava</artifactId>
-        <groupId>com.hubspot.mesos.rx.java</groupId>
-        <version>0.1.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+  <artifactId>mesos-rxjava-util</artifactId>
 
-    <artifactId>mesos-rxjava-util</artifactId>
+  <name>Mesos RxJava :: Util</name>
 
-    <name>Mesos RxJava :: Util</name>
+  <description>A set of common classes and types used across all modules of the project.</description>
 
-    <description>
-        A set of common classes and types used across all modules of the project.
-    </description>
+  <properties>
+    <module.deploy.skip>false</module.deploy.skip>
+  </properties>
 
-    <properties>
-        <module.deploy.skip>false</module.deploy.skip>
-    </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-    <dependencies>
-        <!--
-            This module should NEVER have a dependency on any other modules from this project.
-            This modules is the "lowest" module in the dependency tree and is used by all other
-            modules, as such this module can not depend on any other module since it will create
-            a cycle.
-        -->
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-codec-http</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-handler</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.reactivex</groupId>
-            <artifactId>rxnetty</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
+    <!-- Test -->
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-codec-http</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-handler</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.reactivex</groupId>
+      <artifactId>rxnetty</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
 </project>

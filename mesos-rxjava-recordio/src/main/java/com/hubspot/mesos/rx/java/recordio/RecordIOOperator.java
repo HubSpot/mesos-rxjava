@@ -16,17 +16,18 @@
 
 package com.hubspot.mesos.rx.java.recordio;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import rx.Observable.Operator;
-import rx.Subscriber;
-
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
+import rx.Observable.Operator;
+import rx.Subscriber;
 
 /**
  * An {@link Operator} that can be applied to a stream of {@link ByteBuf} and produce
@@ -117,8 +118,7 @@ public final class RecordIOOperator implements Operator<byte[], ByteBuf> {
          */
         @Override
         public void onNext(final ByteBuf t) {
-            try {
-                final ByteBufInputStream in = new ByteBufInputStream(t);
+            try (ByteBufInputStream in = new ByteBufInputStream(t)) {
                 while (t.readableBytes() > 0) {
                     // New message
                     if (remainingBytesForMessage == 0) {
@@ -168,7 +168,7 @@ public final class RecordIOOperator implements Operator<byte[], ByteBuf> {
                         messageBytes = null;
                     }
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 onError(e);
             }
         }
