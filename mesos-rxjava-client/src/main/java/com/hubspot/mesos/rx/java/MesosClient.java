@@ -100,6 +100,9 @@ public final class MesosClient<Send, Receive> {
     @NotNull
     private final Observable.Transformer<byte[], byte[]> backpressureTransformer;
 
+    @NotNull
+    private final Observable.Transformer<SinkOperation<Send>, SinkOperation<Send>> sendBackpressureTransformer;
+
     MesosClient(
         @NotNull final URI mesosUri,
         @NotNull final Function<Class<?>, UserAgentEntry> applicationUserAgentEntry,
@@ -107,13 +110,15 @@ public final class MesosClient<Send, Receive> {
         @NotNull final MessageCodec<Receive> receiveCodec,
         @NotNull final Send subscribe,
         @NotNull final Function<Observable<Receive>, Observable<Optional<SinkOperation<Send>>>> streamProcessor,
-        @NotNull final  Observable.Transformer<byte[], byte[]> backpressureTransformer
+        @NotNull final  Observable.Transformer<byte[], byte[]> backpressureTransformer,
+        @NotNull final Observable.Transformer<SinkOperation<Send>, SinkOperation<Send>> sendBackpressureTransformer
     ) {
         this.mesosUri = mesosUri;
         this.receiveCodec = receiveCodec;
         this.subscribe = subscribe;
         this.streamProcessor = streamProcessor;
         this.backpressureTransformer = backpressureTransformer;
+        this.sendBackpressureTransformer = sendBackpressureTransformer;
 
         userAgent = new UserAgent(
             applicationUserAgentEntry,
@@ -167,6 +172,7 @@ public final class MesosClient<Send, Receive> {
         final Subscription subscription = sends
             .subscribeOn(Rx.compute())
             .observeOn(Rx.compute())
+            .compose(sendBackpressureTransformer)
             .subscribe(decorator);
 
         return new ObservableAwaitableSubscription(Observable.from(exec.submit(decorator)), subscription);

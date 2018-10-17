@@ -38,10 +38,6 @@
     </dependency>
     <dependency>
       <groupId>com.hubspot.mesos.rx.java</groupId>
-      <artifactId>mesos-rxjava-test</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.hubspot.mesos.rx.java</groupId>
       <artifactId>mesos-rxjava-util</artifactId>
     </dependency>
     <dependency>
@@ -79,6 +75,11 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.hubspot.mesos.rx.java</groupId>
+      <artifactId>mesos-rxjava-test</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
