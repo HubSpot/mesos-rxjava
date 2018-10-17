@@ -49,7 +49,7 @@
     <basepom.check.skip-checkstyle>true</basepom.check.skip-checkstyle>
     <basepom.release.profiles>oss-release</basepom.release.profiles>
     <dep.netty.version>4.1.22.Final</dep.netty.version>
-    <dep.protobuf.version>3.5.0</dep.protobuf.version>
+    <dep.protobuf-java.version>3.5.1</dep.protobuf-java.version>
     <mesos.version>1.6.1</mesos.version>
     <project.build.targetJdk>1.8</project.build.targetJdk>
     <dep.rxJava.version>1.3.8</dep.rxJava.version>
@@ -61,7 +61,7 @@
       <dependency>
         <groupId>com.google.protobuf</groupId>
         <artifactId>protobuf-java</artifactId>
-        <version>${dep.protobuf.version}</version>
+        <version>${dep.protobuf-java.version}</version>
       </dependency>
 
       <!-- project libraries -->
