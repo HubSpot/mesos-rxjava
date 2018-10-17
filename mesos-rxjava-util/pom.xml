@@ -28,10 +28,6 @@
 
   <description>A set of common classes and types used across all modules of the project.</description>
 
-  <properties>
-    <module.deploy.skip>false</module.deploy.skip>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.jetbrains</groupId>

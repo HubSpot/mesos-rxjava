@@ -28,10 +28,6 @@
 
   <description>A set of tools to help when writing tests.</description>
 
-  <properties>
-    <module.deploy.skip>false</module.deploy.skip>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>

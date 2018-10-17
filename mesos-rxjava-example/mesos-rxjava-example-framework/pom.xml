@@ -28,10 +28,6 @@
 
   <description>A simple framework that launches sleep tasks to exercise the client and the mesos http api.</description>
 
-  <properties>
-    <module.deploy.skip>false</module.deploy.skip>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>

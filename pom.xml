@@ -52,9 +52,6 @@
     <dep.protobuf.version>3.5.0</dep.protobuf.version>
     <findbugs.skip>true</findbugs.skip>
     <mesos.version>1.6.1</mesos.version>
-
-    <!-- By default we skip deploy of all modules. Any module that should be deployed is explicitly enabled -->
-    <module.deploy.skip>true</module.deploy.skip>
     <project.build.targetJdk>1.8</project.build.targetJdk>
     <version.rxJava>1.1.8</version.rxJava>
     <version.rxNetty>0.5.1</version.rxNetty>
@@ -148,66 +145,56 @@
         </includes>
       </resource>
     </resources>
+  
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>3.0.1</version>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.18.1</version>
         </plugin>
+        <plugin>
+          <groupId>pl.project13.maven</groupId>
+          <artifactId>git-commit-id-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.basepom.maven</groupId>
+          <artifactId>duplicate-finder-maven-plugin</artifactId>
+          <configuration>
+            <ignoredResourcePatterns>
+              <ignoredResourcePattern>.*\.html</ignoredResourcePattern>
+              <ignoredResourcePattern>about_files/.*</ignoredResourcePattern>
+              <ignoredResourcePattern>plugin\.properties</ignoredResourcePattern>
+              <ignoredResourcePattern>plugin\.xml</ignoredResourcePattern>
+              <ignoredResourcePattern>.*\.java</ignoredResourcePattern>
+              <ignoredResourcePattern>log4j\.xml</ignoredResourcePattern>
+              <ignoredResourcePattern>log4j\.properties</ignoredResourcePattern>
+              <ignoredResourcePattern>logback\.xml</ignoredResourcePattern>
+              <ignoredResourcePattern>logback\.properties</ignoredResourcePattern>
+              <ignoredResourcePattern>.*licenses\.xml</ignoredResourcePattern>
+            </ignoredResourcePatterns>
+          </configuration>
+        </plugin>
+        <!-- Fixes issues with checkstlye if you use logback for logging in maven -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.10.4</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>ideauidesigner-maven-plugin</artifactId>
-          <version>1.0-beta-1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <version>1.6.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.7.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>license-maven-plugin</artifactId>
-          <version>1.14</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.6</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>2.9</version>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <dependencies>
+            <dependency>
+              <groupId>org.slf4j</groupId>
+              <artifactId>jcl-over-slf4j</artifactId>
+              <version>1.7.5</version>
+            </dependency>
+            <dependency>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-jdk14</artifactId>
+              <version>1.7.5</version>
+            </dependency>
+          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>
+
     <extensions>
       <extension>
         <groupId>kr.motd.maven</groupId>
@@ -216,6 +203,7 @@
       </extension>
     </extensions>
   </build>
+
   <url>https://github.com/HubSpot/mesos-rxjava</url>
 
   <licenses>

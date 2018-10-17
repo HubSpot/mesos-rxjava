@@ -27,10 +27,6 @@
 
   <name>Mesos RxJava :: Client</name>
 
-  <properties>
-    <module.deploy.skip>false</module.deploy.skip>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
