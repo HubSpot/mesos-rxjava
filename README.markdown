@@ -1,4 +1,4 @@
-Mesos RxJava [![Build Status](https://teamcity.mesosphere.io/guestAuth/app/rest/builds/buildType:(id:Oss_Mesos_MesosRxJava_Ci)/statusIcon)](https://teamcity.mesosphere.io/viewType.html?buildTypeId=Oss_Mesos_MesosRxJava_Ci&guest=1) [![In Progress](https://badge.waffle.io/mesosphere/mesos-rxjava.png?label=in+progress&title=In+Progress)](https://waffle.io/mesosphere/mesos-rxjava)
+Mesos RxJava
 ============
 
 Mesos RxJava is a library that provides a Reactive Client (via [RxJava](https://github.com/ReactiveX/RxJava)) atop
@@ -36,7 +36,7 @@ Releases are available in Maven Central.
 
 ```
 <dependency>
-    <groupId>com.mesosphere.mesos.rx.java</groupId>
+    <groupId>com.hubspot.mesos.rx.java</groupId>
     <artifactId>mesos-rxjava-protobuf-client</artifactId>
     <version>0.2.0</version>
 </dependency>
@@ -46,7 +46,7 @@ Releases are available in Maven Central.
 
 ```
 <dependency>
-    <groupId>com.mesosphere.mesos.rx.java</groupId>
+    <groupId>com.hubspot.mesos.rx.java</groupId>
     <artifactId>mesos-rxjava-test</artifactId>
     <version>0.2.0</version>
     <scope>test</scope>
@@ -75,7 +75,7 @@ Version `0.1.0-SNAPSHOT` has been published to the Sonatype OSS Snapshot Repo.
 
 ```
 <dependency>
-    <groupId>com.mesosphere.mesos.rx.java</groupId>
+    <groupId>com.hubspot.mesos.rx.java</groupId>
     <artifactId>mesos-rxjava-protobuf-client</artifactId>
     <version>0.2.1-SNAPSHOT</version>
 </dependency>
@@ -85,7 +85,7 @@ Version `0.1.0-SNAPSHOT` has been published to the Sonatype OSS Snapshot Repo.
 
 ```
 <dependency>
-    <groupId>com.mesosphere.mesos.rx.java</groupId>
+    <groupId>com.hubspot.mesos.rx.java</groupId>
     <artifactId>mesos-rxjava-test</artifactId>
     <version>0.2.1-SNAPSHOT</version>
     <scope>test</scope>
