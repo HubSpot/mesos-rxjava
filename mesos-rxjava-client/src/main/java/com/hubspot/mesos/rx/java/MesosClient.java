@@ -482,6 +482,6 @@ public final class MesosClient<Send, Receive> {
             }
             advanceSlowPointer = !advanceSlowPointer; // only advance every other iteration
         }
-        return Collections.unmodifiableList(causes);
+        return causes;
     }
 }
