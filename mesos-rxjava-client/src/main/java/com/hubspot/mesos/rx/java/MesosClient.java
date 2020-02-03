@@ -22,7 +22,9 @@ import static rx.Observable.just;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -70,7 +72,7 @@ import rx.functions.Func1;
  * @see MesosClientBuilder
  */
 public final class MesosClient<Send, Receive> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MesosClient.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(MesosClient.class);
 
     private static final String MESOS_STREAM_ID = "Mesos-Stream-Id";
 
@@ -103,6 +105,9 @@ public final class MesosClient<Send, Receive> {
     @NotNull
     private final Observable.Transformer<SinkOperation<Send>, SinkOperation<Send>> sendBackpressureTransformer;
 
+    @NotNull
+    private final Observable.Transformer<SinkOperation<Send>, SinkOperation<Send>> onSendErrorTransformer;
+
     MesosClient(
         @NotNull final URI mesosUri,
         @NotNull final Function<Class<?>, UserAgentEntry> applicationUserAgentEntry,
@@ -110,8 +115,9 @@ public final class MesosClient<Send, Receive> {
         @NotNull final MessageCodec<Receive> receiveCodec,
         @NotNull final Send subscribe,
         @NotNull final Function<Observable<Receive>, Observable<Optional<SinkOperation<Send>>>> streamProcessor,
-        @NotNull final  Observable.Transformer<byte[], byte[]> backpressureTransformer,
-        @NotNull final Observable.Transformer<SinkOperation<Send>, SinkOperation<Send>> sendBackpressureTransformer
+        @NotNull final Observable.Transformer<byte[], byte[]> backpressureTransformer,
+        @NotNull final Observable.Transformer<SinkOperation<Send>, SinkOperation<Send>> sendBackpressureTransformer,
+        @NotNull final Observable.Transformer<SinkOperation<Send>, SinkOperation<Send>> onSendErrorTransformer
     ) {
         this.mesosUri = mesosUri;
         this.receiveCodec = receiveCodec;
@@ -119,6 +125,7 @@ public final class MesosClient<Send, Receive> {
         this.streamProcessor = streamProcessor;
         this.backpressureTransformer = backpressureTransformer;
         this.sendBackpressureTransformer = sendBackpressureTransformer;
+        this.onSendErrorTransformer = onSendErrorTransformer;
 
         userAgent = new UserAgent(
             applicationUserAgentEntry,
@@ -173,6 +180,7 @@ public final class MesosClient<Send, Receive> {
             .subscribeOn(Rx.compute())
             .observeOn(Rx.compute())
             .compose(sendBackpressureTransformer)
+            .compose(onSendErrorTransformer)
             .subscribe(decorator);
 
         return new ObservableAwaitableSubscription(Observable.from(exec.submit(decorator)), subscription);
@@ -447,5 +455,33 @@ public final class MesosClient<Send, Receive> {
                     .withContent(bytes)
             );
         };
+    }
+
+    static List<Throwable> getCausalChain(Throwable throwable) {
+       if (throwable == null) {
+           return Collections.emptyList();
+       }
+        List<Throwable> causes = new ArrayList<>(4);
+        causes.add(throwable);
+
+        // Keep a second pointer that slowly walks the causal chain. If the fast pointer ever catches
+        // the slower pointer, then there's a loop.
+        Throwable slowPointer = throwable;
+        boolean advanceSlowPointer = false;
+
+        Throwable cause;
+        while ((cause = throwable.getCause()) != null) {
+            throwable = cause;
+            causes.add(throwable);
+
+            if (throwable == slowPointer) {
+                throw new IllegalArgumentException("Loop in causal chain detected.", throwable);
+            }
+            if (advanceSlowPointer) {
+                slowPointer = slowPointer.getCause();
+            }
+            advanceSlowPointer = !advanceSlowPointer; // only advance every other iteration
+        }
+        return Collections.unmodifiableList(causes);
     }
 }
