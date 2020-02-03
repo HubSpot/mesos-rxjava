@@ -16,19 +16,22 @@
 
 package com.hubspot.mesos.rx.java;
 
-import com.hubspot.mesos.rx.java.util.MessageCodec;
-import com.hubspot.mesos.rx.java.util.UserAgentEntry;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import rx.BackpressureOverflow;
-import rx.Observable;
-import rx.functions.Action0;
+import static com.hubspot.mesos.rx.java.util.Validations.checkNotNull;
 
+import java.net.ConnectException;
 import java.net.URI;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static com.hubspot.mesos.rx.java.util.Validations.checkNotNull;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.hubspot.mesos.rx.java.util.MessageCodec;
+import com.hubspot.mesos.rx.java.util.UserAgentEntry;
+
+import rx.BackpressureOverflow;
+import rx.Observable;
+import rx.functions.Action0;
 
 /**
  * Builder used to create a {@link MesosClient}.
@@ -47,6 +50,7 @@ public final class MesosClientBuilder<Send, Receive> {
     private Function<Observable<Receive>, Observable<Optional<SinkOperation<Send>>>> streamProcessor;
     private Observable.Transformer<byte[], byte[]> backpressureTransformer;
     private Observable.Transformer<SinkOperation<Send>, SinkOperation<Send>> sendEventBackpressureTransformer;
+    private Observable.Transformer<SinkOperation<Send>, SinkOperation<Send>> onSendErrorTransformer = observable -> observable;
 
     private MesosClientBuilder() {
         backpressureTransformer = observable -> observable;
@@ -315,6 +319,32 @@ public final class MesosClientBuilder<Send, Receive> {
     }
 
     /**
+     * Instructs the SinkOperation<Send> stream to be composed with retries and an onErrorResumeNext handler.
+     * Without these handlers, when the send Observable throws an exception (such as a timeout receiving a response
+     * from the mesos master, no further events will be attempted
+     *
+     * @return this builder (allowing for further chained calls)
+     * @see <a href="http://reactivex.io/documentation/operators/backpressure.html">ReactiveX operators documentation: backpressure operators</a>
+     */
+    @NotNull
+    public MesosClientBuilder<Send, Receive> onSendErrorRetry(
+
+    ) {
+        this.onSendErrorTransformer = observable ->
+            observable
+                .retry((i, t) -> {
+                    boolean retry = MesosClient.getCausalChain(t).stream().anyMatch((th) -> th instanceof ConnectException);
+                    MesosClient.LOGGER.debug("Recevied {} exception (retry count {}) will retry: {} ({})", t.getClass(), i, retry, t.getMessage());
+                    return retry;
+                })
+                .onErrorResumeNext((throwable -> {
+                    MesosClient.LOGGER.warn("Received exception on send, will continue to retry", throwable);
+                    return Observable.empty();
+                }));
+        return this;
+    }
+
+    /**
      * Builds the instance of {@link MesosClient} that has been configured by this builder.
      * All items are expected to have non-null values, if any item is null an exception will be thrown.
      * @return The configured {@link MesosClient}
@@ -329,7 +359,8 @@ public final class MesosClientBuilder<Send, Receive> {
             checkNotNull(subscribe),
             checkNotNull(streamProcessor),
             checkNotNull(backpressureTransformer),
-            checkNotNull(sendEventBackpressureTransformer)
+            checkNotNull(sendEventBackpressureTransformer),
+            checkNotNull(onSendErrorTransformer)
         );
     }
 
